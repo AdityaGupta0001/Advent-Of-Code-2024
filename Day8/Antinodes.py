@@ -1,59 +1,63 @@
-# from pprint import pprint
-# from copy import deepcopy
-# rows = []
-# with open('Day8\data.txt', 'r') as file:
-#     for line in file:
-#         data = line.strip()
-#         rows.append(data)
+from pprint import pprint
+from copy import deepcopy
+rows = []
+with open('Day8\data.txt', 'r') as file:
+    for line in file:
+        data = line.strip()
+        rows.append(data)
 
-# matrix = []
+matrix = []
 
-# for i in rows:
-#     row = []
-#     for j in i:
-#         row.append(j)
-#     matrix.append(row)
+for i in rows:
+    row = []
+    for j in i:
+        row.append(j)
+    matrix.append(row)
 
-# anntinode_makers = []
+anntinode_makers = []
 
-# for i in range(len(matrix)):
-#     for j in range(len(matrix[i])):
-#         for k in range(i+1,len(matrix)):
-#             if matrix[i][j] in matrix[k] and matrix[i][j] in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890':
-#                 anntinode_makers.append([[i,j],[k,matrix[k].index(matrix[i][j])]])
+for i in range(len(matrix)):
+    for j in range(len(matrix[i])):
+        for k in range(i+1,len(matrix)):
+            if matrix[i][j] in matrix[k] and matrix[i][j] in 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890':
+                anntinode_makers.append([[i,j],[k,matrix[k].index(matrix[i][j])]])
 
-# # pprint(matrix)
-# # print() 
-# # print(anntinode_makers)
 
-# for i in range(len(anntinode_makers)):
-#     pair = anntinode_makers[i]
-#     row_diff = abs(anntinode_makers[i][0][0] - anntinode_makers[i][1][0])
-#     col_diff = abs(anntinode_makers[i][0][1] - anntinode_makers[i][1][1])
+total_antinodes = 0
+overlaps = 0
+for i in range(len(anntinode_makers)):
+    pair = anntinode_makers[i]
+    row_diff = abs(anntinode_makers[i][0][0] - anntinode_makers[i][1][0])
+    col_diff = abs(anntinode_makers[i][0][1] - anntinode_makers[i][1][1])
 
-#     if pair[0][0]<pair[1][0] and pair[0][1]>pair[1][1]:
-#         if pair[0][0]-row_diff in range(0,len(matrix)) and pair[0][1]+col_diff in range(0,len(matrix[0])):
-#             if matrix[pair[0][0]-row_diff][pair[0][1]+col_diff] == '.':
-#                 matrix[pair[0][0]-row_diff][pair[0][1]+col_diff] = '#'
-#         if pair[1][0]+row_diff in range(0,len(matrix)) and pair[1][1]-col_diff in range(0,len(matrix[0])):
-#             if matrix[pair[1][0]+row_diff][pair[1][1]-col_diff] == '.':
-#                 matrix[pair[1][0]+row_diff][pair[1][1]-col_diff] = '#'
-#     elif pair[0][0]<pair[1][0] and pair[0][1]<pair[1][1]:
-#         if pair[0][0]-row_diff in range(0,len(matrix)) and pair[0][1]-col_diff in range(0,len(matrix[0])):
-#             if matrix[pair[0][0]-row_diff][pair[0][1]-col_diff] == '.':
-#                 matrix[pair[0][0]-row_diff][pair[0][1]-col_diff] = '#'
-#         if pair[1][0]+row_diff in range(0,len(matrix)) and pair[1][1]+col_diff in range(0,len(matrix[0])):
-#             if matrix[pair[1][0]+row_diff][pair[1][1]+col_diff] == '.':
-#                 matrix[pair[1][0]+row_diff][pair[1][1]+col_diff] = '#'
+    if pair[0][0]<pair[1][0] and pair[0][1]>pair[1][1]:
+        if pair[0][0]-row_diff in range(0,len(matrix)) and pair[0][1]+col_diff in range(0,len(matrix[0])):
+            if matrix[pair[0][0]-row_diff][pair[0][1]+col_diff] == '.':
+                matrix[pair[0][0]-row_diff][pair[0][1]+col_diff] = '#'
+                total_antinodes+=1
+            elif matrix[pair[0][0]-row_diff][pair[0][1]+col_diff] not in ('.','#'):
+                total_antinodes+=1
+        if pair[1][0]+row_diff in range(0,len(matrix)) and pair[1][1]-col_diff in range(0,len(matrix[0])):
+            if matrix[pair[1][0]+row_diff][pair[1][1]-col_diff] == '.':
+                matrix[pair[1][0]+row_diff][pair[1][1]-col_diff] = '#'
+                total_antinodes+=1
+            elif matrix[pair[1][0]+row_diff][pair[1][1]-col_diff] not in ('.','#'):
+                total_antinodes+=1
+    elif pair[0][0]<pair[1][0] and pair[0][1]<pair[1][1]:
+        if pair[0][0]-row_diff in range(0,len(matrix)) and pair[0][1]-col_diff in range(0,len(matrix[0])):
+            if matrix[pair[0][0]-row_diff][pair[0][1]-col_diff] == '.':
+                matrix[pair[0][0]-row_diff][pair[0][1]-col_diff] = '#'
+                total_antinodes+=1
+            elif matrix[pair[0][0]-row_diff][pair[0][1]-col_diff] not in ('.','#'):
+                total_antinodes+=1
+        if pair[1][0]+row_diff in range(0,len(matrix)) and pair[1][1]+col_diff in range(0,len(matrix[0])):
+            if matrix[pair[1][0]+row_diff][pair[1][1]+col_diff] == '.':
+                matrix[pair[1][0]+row_diff][pair[1][1]+col_diff] = '#'
+                total_antinodes+=1
+            elif matrix[pair[1][0]+row_diff][pair[1][1]+col_diff] not in ('.','#'):
+                total_antinodes+=1
 
-# total_antinodes = 0
-
-# for i in range(len(matrix)):
-#     for j in range(len(matrix[i])):
-#         if matrix[i][j] == '#':
-#             total_antinodes+=1
-
-# print(total_antinodes+1)
+print(total_antinodes)
 
 def get_grid(filename):
     with open(filename) as f:
